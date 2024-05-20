@@ -20,7 +20,7 @@ director.window.set_icon(img)
 #
 #==================== ALL GAME LAYERS ====================#
 class CardLayer(cocos.layer.Layer):   # Inheritance # This defines CardLayer as a subclass of cocos.layer.Layer. Layer is a base class in Cocos2d for creating different layers in a scene.
-    is_event_handler = True                         # This attribute indicates that the layer will handle events, such as mouse clicks. Setting this to True allows the layer to respond to events like mouse presses.
+    is_event_handler = True                         # This attribute indicates that the layer will handle events, such as mouse clicks. Setting this to True allows the layer to respond to events like mouse presses. By setting is_event_handler to True, you are informing the Cocos2d framework that this layer should handle events.
     def __init__(self, image_path):                 # The constructor method initializes the CardLayer object.
         super().__init__()                          # Calls the constructor of the parent class 
         self.clicked = False                        # Initializes a flag to track whether the card has been clicked.
@@ -31,7 +31,7 @@ class CardLayer(cocos.layer.Layer):   # Inheritance # This defines CardLayer as 
         #
         self.add(self.spr)              # Adds the front and back sprites to the layer. By adding both, the back image will be on top, hiding the front image until the card is clicked.
         self.add(self.back)
-        #
+        #                                           # The methods on_mouse_press and on_mouse_motion are special methods recognized by Cocos2d as event handlers. When is_event_handler is set to True, Cocos2d will call these methods when the corresponding mouse events occur.
     def card_clicked(self, x, y):
         return x < self.spr.x + self.spr.width and x > self.spr.x and y < self.spr.y + self.spr.height and y > self.spr.y
     #
@@ -183,7 +183,7 @@ class MainMenu(cocos.menu.Menu):                    # Defines MainMenu as a subc
 #
 #===== Button =====#
 class Button(cocos.layer.Layer):                    # Polymorphism
-    is_event_handler = True
+    is_event_handler = True                         # The Button class in the provided code overrides the on_mouse_press and on_mouse_motion methods from the base Layer class to provide specific behavior for mouse events related to the button.
     def __init__(self, pos):
         super().__init__()
         self.spr = cocos.sprite.Sprite('res/sprites/back_btn_w_trnsp.png')
@@ -196,12 +196,12 @@ class Button(cocos.layer.Layer):                    # Polymorphism
         return x > self.spr.x - (self.spr.width//2) and x < self.spr.x + (self.spr.width // 2) and \
                y > self.spr.y - (self.spr.height//2) and y < self.spr.y + (self.spr.height // 2)
     #
-    def on_mouse_press(self, x, y, button, modifiers):
+    def on_mouse_press(self, x, y, button, modifiers):      # Override mouse_press
         if button & mouse.LEFT:
             if self.button_clicked(x, y):
                 DisplayController.change_display(DisplayController.start_display)
     #
-    def on_mouse_motion(self, x, y, dx, dy):
+    def on_mouse_motion(self, x, y, dx, dy):                # Override mouse_motion
         if self.button_clicked(x, y):
             self.spr.scale = 1.2
         #
